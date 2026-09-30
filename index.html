@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SuperApp Enterprise</title>
+  <!-- Tailwind CSS para o estilo visual -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans h-screen flex overflow-hidden">
+
+  <!-- BARRA LATERAL (MENU) -->
+  <aside class="w-20 bg-gray-800 flex flex-col items-center py-6 gap-8 border-r border-gray-700">
+    <div class="p-3 bg-blue-600 rounded-xl shadow-lg cursor-pointer">
+      <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="flex-1 flex flex-col">
+    <!-- CABEÇALHO -->
+    <header class="h-20 border-b border-gray-800 flex justify-between items-center px-10 bg-gray-900/50 backdrop-blur-md">
+      <h1 class="text-2xl font-bold tracking-wider">SuperApp <span class="text-blue-500">Enterprise</span></h1>
+      <button onclick="gerarRelatorioIA()" class="bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-2 rounded-full font-semibold hover:scale-105 transition shadow-lg shadow-purple-500/30">
+        🧠 Gerar Relatório IA
+      </button>
+    </header>
+
+    <!-- ÁREA DE TRABALHO (GRID) -->
+    <div class="flex-1 flex gap-6 p-8 overflow-hidden">
+      
+      <!-- MÓDULO KANBAN -->
+      <section class="flex-1 flex gap-6 overflow-x-auto pb-4">
+        <!-- Coluna A Fazer -->
+        <div class="w-1/3 bg-gray-800/50 p-5 rounded-2xl border border-gray-700 flex flex-col">
+          <h2 class="text-lg font-bold mb-4 text-gray-300">📌 A Fazer</h2>
+          <div class="flex flex-col gap-3 flex-1">
+            <div class="bg-gray-700 p-4 rounded-xl shadow-md cursor-pointer hover:ring-2 hover:ring-blue-500 transition">
+              <p class="font-medium">Criar banco de dados</p>
+            </div>
+            <div class="bg-gray-700 p-4 rounded-xl shadow-md cursor-pointer hover:ring-2 hover:ring-blue-500 transition">
+              <p class="font-medium">Configurar servidor de IA</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coluna Em Progresso -->
+        <div class="w-1/3 bg-gray-800/50 p-5 rounded-2xl border border-gray-700 flex flex-col">
+          <h2 class="text-lg font-bold mb-4 text-gray-300">⚙️ Em Progresso</h2>
+          <div class="flex flex-col gap-3 flex-1">
+            <div class="bg-gray-700 p-4 rounded-xl shadow-md cursor-pointer hover:ring-2 hover:ring-blue-500 transition">
+              <p class="font-medium">Integrar GitHub com o site</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coluna Concluído -->
+        <div class="w-1/3 bg-gray-800/50 p-5 rounded-2xl border border-gray-700 flex flex-col">
+          <h2 class="text-lg font-bold mb-4 text-gray-300">✅ Concluído</h2>
+          <div class="flex flex-col gap-3 flex-1">
+            <div class="bg-gray-700 p-4 rounded-xl shadow-md cursor-pointer hover:ring-2 hover:ring-blue-500 transition">
+              <p class="font-medium">Criar repositório no GitHub</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MÓDULO CHAT -->
+      <section class="w-96 bg-gray-800 rounded-2xl flex flex-col border border-gray-700 shadow-xl overflow-hidden">
+        <div class="p-4 bg-gray-900 border-b border-gray-700 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+          <h3 class="font-bold">Chat da Equipa</h3>
+        </div>
+        
+        <!-- Mensagens -->
+        <div id="chat-box" class="flex-1 p-4 overflow-y-auto flex flex-col gap-4">
+          <div class="flex flex-col items-start">
+            <span class="text-xs text-gray-400 mb-1">Sistema</span>
+            <div class="p-3 rounded-2xl bg-gray-700 text-gray-100 rounded-bl-none max-w-[80%]">
+              Bem-vindo ao SuperApp Enterprise!
+            </div>
+          </div>
+        </div>
+
+        <!-- Input do Chat -->
+        <div class="p-4 bg-gray-900 border-t border-gray-700 flex gap-2">
+          <input id="chat-input" type="text" placeholder="Escreva uma mensagem..." class="flex-1 bg-gray-800 rounded-xl px-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <button onclick="enviarMensagem()" class="p-3 bg-blue-600 rounded-xl hover:bg-blue-500 transition">
+            🚀
+          </button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- LÓGICA EM JAVASCRIPT -->
+  <script>
+    function enviarMensagem() {
+      const input = document.getElementById('chat-input');
+      const box = document.getElementById('chat-box');
+      
+      if (input.value.trim() === '') return;
+
+      const msgHTML = `
+        <div class="flex flex-col items-end">
+          <span class="text-xs text-gray-400 mb-1">Você</span>
+          <div class="p-3 rounded-2xl bg-blue-600 text-white rounded-br-none max-w-[80%]">
+            ${input.value}
+          </div>
+        </div>
+      `;
+      
+      box.innerHTML += msgHTML;
+      input.value = '';
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function gerarRelatorioIA() {
+      alert('🤖 Inteligência Artificial: A analisar dados financeiros e métricas da equipa... Relatório gerado com sucesso!');
+    }
+  </script>
+</body>
+</html>
